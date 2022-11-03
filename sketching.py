@@ -2,11 +2,10 @@ import numpy as np
 from scipy.linalg import solve_triangular, qr
 
 def hilbert_matrix(n):
-    if n == 1:
-        return np.array([[1]])
-    else:
-        H = hilbert_matrix(n-1)
-        return np.block([[H, H+1], [H+1, H]])
+    '''
+    Hilbert matrix of order n.
+    '''
+    return np.array([[1/(i+j-1) for i in range(1, n+1)] for j in range(1, n+1)])
 
 def sketching(A, r, ell = None):
     '''
@@ -35,20 +34,20 @@ def sketching(A, r, ell = None):
     B = solve_triangular(R.T, (AX).T, lower=True).T
     C = (Q.T @ YA).T
 
-    #At = B @ C.T
+    At = B @ C.T
 
-    return 
+    return At
 
 def main():
-    A = hilbert_matrix(100)
+    A = hilbert_matrix(5)
     
-    sketching(A, 9)
+    #print(A.shape)
+    At = sketching(A, 5)
 
     #Print the Frobenius norm of the difference.
-    #print(np.linalg.norm(A - At, ord='fro'))
+    print(np.linalg.norm(A - At, ord='fro'))
 
     return
-
 
 if __name__ == '__main__':
     main()
