@@ -20,6 +20,8 @@ def SGN(A, r, ell = None, seed=42):
     #Draw random Gaussian matrix Y in R^(n x (r+ell))
     Y = np.random.normal(0, 1, (m, (r+ell)))
     
+    #Calculate AX. A is m x n, X is n x r.
+    #The time complexity of this operation is O(mnr).
     AX = A@X
     YA = Y.T@A
 
@@ -33,4 +35,5 @@ def SGN(A, r, ell = None, seed=42):
 
     At = B @ C.T
 
+    #Return the reconstruction error.
     return At
