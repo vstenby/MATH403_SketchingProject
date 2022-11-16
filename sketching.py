@@ -1,54 +1,41 @@
+from generate_test_matrices import generate_hilbert_matrix, generate_A2, generate_A3
+from SGN import SGN
 import numpy as np
-from scipy.linalg import solve_triangular, qr
-
-def hilbert_matrix(n):
-    if n == 1:
-        return np.array([[1]])
-    else:
-        H = hilbert_matrix(n-1)
-        return np.block([[H, H+1], [H+1, H]])
-
-def sketching(A, r, ell = None):
-    '''
-    (Stabilized) Generalized Nyström.
-    '''
-
-    if ell is None:
-        ell = np.ceil(0.5 * r).astype(int)
-    
-    m, n = A.shape
-
-    #Draw random Gaussian matrix X in R^(m x r)
-    X = np.random.normal(0, 1, (n, r))
-
-    #Draw random Gaussian matrix Y in R^(n x (r+ell))
-    Y = np.random.normal(0, 1, (m, (r+ell)))
-    
-    AX = A@X
-    YA = Y.T@A
-
-    [Q,R] = qr(Y.T@AX, mode='economic')
-
-    #https://ch.mathworks.com/matlabcentral/answers/1743765-what-is-the-difference-between-backward-slash-vs-forward-slash-in-matlab?s_tid=srchtitle
-    #https://arxiv.org/pdf/2009.11392.pdf
-    #In MATLAB, the author writes (AX/R), which is equivalent with a triangle solve. Yeah, this is a bit complicated.
-    B = solve_triangular(R.T, (AX).T, lower=True).T
-    C = (Q.T @ YA).T
-
-    #At = B @ C.T
-
-    return 
+import argparse 
+#import wandb
 
 def main():
-    A = hilbert_matrix(100)
+
+    parser = argparse.ArgumentParser(description='Sketching Project')
+
+    parser.add_argument('--n', type=int, default=200, help='The size of the matrix.')
     
-    sketching(A, 9)
+    #If ell = None, then ell = floor(0.5 * r).
+    parser.add_argument('--ell', type=int, default=None)
 
-    #Print the Frobenius norm of the difference.
-    #print(np.linalg.norm(A - At, ord='fro'))
+    #Seeds for the random number generators.
+    parser.add_argument('--test_matrix_seed', type=int, default=42, help='Seed for the test matrix.')
+    parser.add_argument('--sgn_seed', type=int, default=42, help='Seed for the SGN algorithm.')
+    parser.add_argument('--r', type=int, default=10, help='The rank of the matrix.')
+    
+    #Generate the test matrix.
+    parser.add_argument('--test_matrix', type=str, default='hilbert', help='The test matrix to use. Can be hilbert, A2, or A3.', choices=['hilbert', 'A2', 'A3'])
 
+    args = parser.parse_args()
+    
+    #Generate the test matrix.
+    if args.test_matrix == 'hilbert':
+        A = generate_hilbert_matrix(args.n)
+    elif args.test_matrix == 'A2':
+        A = generate_A2(args.n, seed=args.test_matrix_seed)
+    elif args.test_matrix == 'A3':
+        A = generate_A3(args.n, seed=args.test_matrix_seed)
+    else:
+        raise Exception('Invalid test matrix.')
+
+    #Calculate the error.
+    err = np.linalg.norm(A - SGN(A, r=args.r, ell=args.ell, seed=args.sgn_seed), ord='fro')
     return
-
 
 if __name__ == '__main__':
     main()
