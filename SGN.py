@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.linalg import solve_triangular, qr
 
-def SGN(A, r, ell = None, seed=42):
+def SGN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
     '''
     Stabilized Generalized Nyström method for sketching a matrix A given r and ell.
     '''
@@ -9,8 +9,10 @@ def SGN(A, r, ell = None, seed=42):
     #Set the seed for reproducability.
     np.random.seed(seed)
 
-    if ell is None:
-        ell = np.floor(0.5 * r).astype(int)
+    #If ell is a function, evaluate it.
+    if callable(ell):
+        ell = ell(r)
+        assert isinstance(ell, int), "Value returned from ell() must be an integer."
     
     m, n = A.shape
 
@@ -35,5 +37,4 @@ def SGN(A, r, ell = None, seed=42):
 
     At = B @ C.T
 
-    #Return the reconstruction error.
     return At
