@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[danish]{babel}
+\usepackage[left=2cm,right=2cm]{geometry}
+\usepackage{lipsum}% for some dummy text
+\title{Lemma 3.1 - derivations}
+\author{Ditte Grønborg Blom, Viktor Stenby Johansson}
+\begin{document}
+\maketitle
+Let us look at the Lemma as described in the paper. 
+\\\\
+\textbf{Lemma 3.1} \textit{Let G be a $m \times n$ Gaussian with $m-1 \geq n \geq 2$. Then}
+
+\begin{equation}
+\mathbb{E}\|G^\dag\|_2^2 \leq \frac{\text{e}^2m}{(m-n)^2-1}	
+\end{equation}
+
+Obviously, we would have a problem if $m-1=n$, because in this case, we would be dividing by zero. Now, for the derivation. Since $\|G^\dag\|$ is nonnegative, it holds that for each $t > 0$,
+
+
+\begin{equation}
+\mathbb{P}\left[\|G^\dag\|_2^2 > t\right] = \mathbb{P}\left[\|G^\dag\|_2 > \sqrt{t}\,\right]
+\end{equation}
+From Proposition A.3, we have that:
+\begin{equation}
+\mathbb{P}\left[\|G^\dag\|_2 > \sqrt{t}\,\right]	 \leq \frac{1}{\sqrt{2\pi(m-n+1)}}\left(\frac{\text{e} \sqrt{m}}{m-n+1}\right)^{m-n+1}t^{-(m-n+1)/2}
+\end{equation}
+and therefore:
+\begin{equation}
+	\mathbb{P}\left[\|G^\dag\|_2^2 > t \right] \leq \frac{1}{\sqrt{2\pi(m-n+1)}}\left(\frac{\text{e} \sqrt{m}}{m-n+1}\right)^{m-n+1}t^{-(m-n+1)/2}
+\end{equation}
+Using arguments similar to those in Proposition A.4, we get:
+\begin{equation}
+\mathbb{E}\|G^\dag\|_2^2 = \int_{0}^{\infty} \mathbb{P}\left[\|G^\dag\|_2^2 > t\right] \text{d}t \leq E+\int_{E}^{\infty} \mathbb{P}\left[\|G^\dag\|_2^2 > t\right] \text{d}t
+\label{eq:integral}
+\end{equation}
+\clearpage
+Write $C:= \frac{1}{\sqrt{2\pi(m-n+1)}} \left(\frac{\text{e} \sqrt{m}}{m-n+1} \right)^{m-n+1}$, and let us calculate the integral in eq. (\ref{eq:integral}).
+
+\begin{align}
+\int_{E}^{\infty} \mathbb{P}\left[\|G^\dag\|_2^2 > t\right] \text{d}t &= \lim_{y \rightarrow \infty} \int_{E}^{y} \mathbb{P}\left[\|G^\dag\|_2^2 > t\right] \text{d}t \\
+&=  \lim_{y \rightarrow \infty} \int_{E}^{y} \frac{1}{\sqrt{2\pi(m-n+1)}}\left(\frac{\text{e} \sqrt{m}}{m-n+1}\right)^{m-n+1}t^{-(m-n+1)/2} \, \text{d} t \\
+&= \lim_{y \rightarrow \infty} \int_{E}^{y} Ct^{-(m-n+1)/2} \, \text{d} t \\
+&= \lim_{y \rightarrow \infty} \left[ C \left(\frac{1}{\frac{-(m-n+1)}{2}+1}\right)t^{\frac{-(m-n+1)}{2}+1}\right]_E^y \\ 
+&=  C\left(\frac{1}{\frac{-(m-n+1)}{2}+1}\right) \lim_{y \rightarrow \infty} \left(y^{\frac{-(m-n+1)}{2}+1} - E^{\frac{-(m-n-1)}{2}}\right) \\
+&= C\left(\frac{1}{\frac{-(m-n+1)}{2}+1}\right) \left(0 - E^{\frac{-(m-n+1)}{2}+1}\right) \\
+&= C\left(\frac{1}{(-1)\cdot\left(\frac{(m-n+1)}{2}-1\right)}\right) (-1) \cdot E^{\frac{-(m-n+1)}{2}+1} \\
+&= C\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) \cdot E^{\frac{-(m-n+1)}{2}+1}
+\end{align}
+which, substituted into eq. (\ref{eq:integral}), yields:
+\begin{equation}
+\mathbb{E}\|G^\dag\|_2^2 \leq E + C\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) \cdot E^{\frac{-(m-n+1)}{2}+1}
+\label{eq:ineq}
+\end{equation}
+Taking the derivative wrt. $E$ gives us:
+\begin{align}
+\frac{\text{d}}{\text{d}E} \left(E + C\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) \cdot E^{\frac{-(m-n+1)}{2}+1}\right) &= 1 +  C\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) \left(\frac{-(m-n+1)}{2}+1\right)E^{\frac{-(m-n+1)}{2}} \\
+&= 1 + C\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) \left(\frac{(m-n+1)}{2}-1\right) (-1)E^{\frac{-(m-n+1)}{2}} \\
+&= 1 -CE^{\frac{-(m-n+1)}{2}}
+\end{align}
+Setting equal to zero, we get:
+\begin{equation}
+1 -CE^{\frac{-(m-n+1)}{2}} = 0 \quad \rightarrow \quad 1 =CE^{\frac{-(m-n+1)}{2}} \quad \rightarrow \quad \frac{1}{C} = \frac{1}{E^{\frac{(m-n+1)}{2}}} \quad \rightarrow \quad C = E^{\frac{(m-n+1)}{2}} \quad \rightarrow \quad C^{\frac{2}{(m-n+1)}} = E
+\end{equation}
+Substituting this expression for $C$ into Eq. (\ref{eq:ineq}) gives:
+\begin{align}
+\mathbb{E}\|G^\dag\|_2^2 &\leq E + E^{\frac{(m-n+1)}{2}} 	\left(\frac{1}{\frac{(m-n+1)}{2}-1}\right) E^{\frac{-(m-n+1)}{2}+1} \\ &= E + \left(\frac{1}{\frac{(m-n+1)}{2}-1}\right)E \\
+&= E\left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right)
+\end{align}
+By substituting $E=C^{\frac{2}{(m-n+1)}}$ back in, we get:
+\begin{align}
+\mathbb{E}\|G^\dag\|_2^2 &\leq C^{\frac{2}{(m-n+1)}} 	\left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right) \\
+&= \left(\frac{1}{\sqrt{2\pi(m-n+1)}} \left(\frac{\text{e} \sqrt{m}}{m-n+1} \right)^{m-n+1}\right)^{\frac{2}{(m-n+1)}} \left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right) 
+\\ 
+&= \left(\frac{1}{\sqrt{2\pi(m-n+1)}}\right)^{\frac{2}{(m-n+1)}}  \left(\left(\frac{\text{e} \sqrt{m}}{m-n+1} \right)^{m-n+1}\right)^{\frac{2}{(m-n+1)}} \left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right) \\
+&= \left(2\pi(m-n+1)\right)^{-\frac{1}{2} \cdot \frac{2}{(m-n+1)}} \left( \frac{\text{e} \sqrt{m}}{m-n+1}\right)^{(m-n+1) \cdot \frac{2}{(m-n+1)}} \left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right)
+\\ 
+&= (2\pi(m-n+1))^{-\frac{1}{(m-n+1)}} \left( \frac{\text{e} \sqrt{m}}{m-n+1}\right)^{2} \left(1 + \left(\frac{1}{\frac{(m-n-1)}{2}}\right)\right)
+\\
+&= \frac{1}{(2\pi (m-n+1))^\frac{1}{(m-n+1)}} \left( \frac{\text{e} \sqrt{m}}{m-n+1}\right)^{2} \left(1 + \frac{2}{m-n-1}\right)
+\\
+&= \underbrace{\left(\frac{1}{2\pi (m-n+1)}\right)^{\frac{1}{(m-n+1)}}}_{< 1}\left( \frac{\text{e} \sqrt{m}}{m-n+1}\right)^{2} \left(1 + \frac{2}{m-n-1}\right)
+\end{align}
+
+Introducing $p:=m-n$, we have:
+\begin{align}
+	\mathbb{E}\|G^\dag\|_2^2 &\leq \text{e}^2m \cdot \left(\frac{1}{(p+1)^2} \right) \left(1 + \frac{2}{p-1}\right)
+\\ &= \text{e}^2m \cdot \frac{1}{p+1} \cdot \frac{1}{p+1} \cdot \left(\frac{p-1}{p-1} + \frac{2}{p-1}\right)
+\\ &= \text{e}^2m \cdot \frac{1}{p+1}\cdot \frac{1}{p+1} \cdot \left( \frac{p+1}{p-1}\right)
+\\ &= \text{e}^2m \cdot \frac{1}{(p+1)(p-1)}
+\\ &= \frac{\text{e}^2m}{p^2-1} = \frac{\text{e}^2m}{(m-n)^2-1}
+\end{align}
+
+The error in Lemma 3.1 is in Equation (28), but since we discard this term it does not make a difference for the end result. Furthermore, instead of having $m -1 \geq n \geq 2$, we should have $m-2 \geq n \geq 2$. 
+
+\end{document}
