@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[danish]{babel}
+\usepackage[left=2cm,right=2cm]{geometry}
+\usepackage{lipsum}% for some dummy text
+\title{Exercise 2 - derivations}
+\author{Ditte Grønborg Blom, Viktor Stenby Johansson}
+\begin{document}
+\maketitle
+\noindent \textbf{Lemma 1}\\
+For an orthogonal matrix $\mathbf{Q}$ and a standard Gaussian random matrix $\mathbf{\Omega}$, then the product $\mathbf{Q}\mathbf{\Omega}$ is also a standard Gaussian random matrix. \\\\
+\textbf{Lemma 2} \\
+Any submatrix of a standard Gaussian random matrix is a standard Gaussian random matrix.
+\\\\
+For matrices $\mathbf{A}$, $\mathbf{X}$ and $\mathbf{Y}$, we have:
+\begin{equation}
+\mathbf{A} \in \mathbb{R}^{n \times m}, \quad \mathbf{X} \in \mathbb{R}^{m \times r}, \quad \mathbf{Y} \in \mathbb{R}^{n \times r}\nonumber	
+\end{equation}
+Using the singular value decomposition, $\mathbf{A}$ can be decomposed into orthonormal matrix $\mathbf{U} \in \mathbb{R}^{n \times n}$, $\mathbf{\Sigma} \in \mathbb{R}^{n \times m}$ and orthonormal matrix $\mathbf{V} \in \mathbb{R}^{n \times n}$ as follows:
+\begin{equation*}
+\mathbf{A} = \mathbf{U}\mathbf{\Sigma}\mathbf{V}^T
+\end{equation*}
+Partitioning $\mathbf{U}$ and $\mathbf{V}$ as  $\mathbf{U} = \begin{bmatrix} \mathbf{U}_r & \mathbf{U}_\perp \end{bmatrix}$, where $\mathbf{U}_r \in \mathbb{R}^{n \times r}$ and similarly $\mathbf{V} = \begin{bmatrix} \mathbf{V}_r & \mathbf{V}_\perp \end{bmatrix}$, where $\mathbf{V}_r \in \mathbb{R}^{m \times r}$, we have:
+
+\begin{equation*}
+\mathbf{A} = \begin{bmatrix}
+	\mathbf{U}_r & \mathbf{U}_{\perp} \end{bmatrix} \begin{bmatrix}\mathbf{\Sigma}_r & \mathbf{0}_{r\times(m-r)} \\ \mathbf{0}_{(n-r) \times r} & \mathbf{0}_{(n-r)\times (m-r)} 
+\end{bmatrix} \begin{bmatrix} \mathbf{V}_r^T \\ \mathbf{V}_\perp^T\end{bmatrix}	= \mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T	
+\end{equation*}
+where we used that $\mathbf{A}$ is of rank $r$ and therefore only has $r$ singular values. 
+\\\\
+\textbf{Proposition 1} \\
+If $\mathbf{X} \in \mathbb{R}^{m \times r}$ is a standard Gaussian random matrix, then $\mathbf{V_r}^T\mathbf{X} \in \mathbb{R}^{r \times r}$ is a standard Gaussian random matrix. \\\\
+\textit{Proof}\\
+$\mathbf{V}$ and $\mathbf{V}^T$ are both orthonormal matrices. Therefore $\mathbf{V}^T\mathbf{X}$ is a standard Gaussian random matrix. If we use the partitioning of $\mathbf{V}$ as introduced earlier, we have:
+
+\begin{equation}
+\mathbf{V}^T\mathbf{X} = \begin{bmatrix} \mathbf{V}_r^T \\ \mathbf{V}_\perp^T\end{bmatrix}	\mathbf{X} = \begin{bmatrix}
+	\mathbf{V}_r^T \mathbf{X} \\
+	\mathbf{V}_\perp^T\mathbf{X}
+\end{bmatrix}
+\end{equation}
+Recognizing $\mathbf{V}_r^T\mathbf{X}$ as a submatrix of a standard Gaussian random matrix and using Lemma 2 means that $\mathbf{V}_r^T\mathbf{X}$ is a standard Gaussian random matrix.  $\square$
+\clearpage
+\noindent \textbf{Proposition 2}\\
+If $\mathbf{Y} \in \mathbb{R}^{n \times r}$ is a standard Gaussian random matrix, then $\mathbf{Y}^T\mathbf{U}_r$ is a standard Gaussian random matrix. \\\\
+\textit{Proof}\\
+$\mathbf{U}$ and $\mathbf{U}^T$ are both orthonormal matrices. Lemma 1 states that $\mathbf{U}^T\mathbf{Y}$ is a standard Gaussian random matrix, meaning that $\mathbf{Y}^T\mathbf{U}= \left(\mathbf{U}^T\mathbf{Y}\right)^T$ is a standard Gaussian random matrix, because the transpose of a standard Gaussian random matrix is also standard Gaussian. Writing
+
+\begin{equation}
+\mathbf{Y}^T\mathbf{U} = \mathbf{Y}^T \begin{bmatrix}
+	\mathbf{U}_r & \mathbf{U}_\perp
+\end{bmatrix}	= \begin{bmatrix}
+	\mathbf{Y}^T\mathbf{U}_r & \mathbf{Y}^T\mathbf{U}_\perp
+\end{bmatrix}
+\end{equation}
+allows us to recognize $\mathbf{Y}^T\mathbf{U}_r$ as a submatrix of a standard Gaussian random matrix, which according to Lemma 2 states that $\mathbf{Y}^T\mathbf{U}_r$ itself then is a standard  Gaussian random matrix. $\square$
+\\\\
+\textbf{Proposition 3}\\
+If $\mathbf{A}$ has exactly rank $r$, then \texttt{SKETCHING}($\mathbf{A}, r, 0$) returns an exact low-rank factorization with probability 1. 
+\\\\
+Using the \texttt{SKETCHING} expression for $\mathbf{A}$ yields:
+\begin{align}
+\texttt{SKETCHING}(\mathbf{A}, r, 0) &= \mathbf{B}\mathbf{C}^T \\
+&= \mathbf{A}\mathbf{X}\mathbf{R}^\dag(\mathbf{A}^T\mathbf{Y}\mathbf{Q})^T \\
+&= \mathbf{A}\mathbf{X}\mathbf{R}^\dag \mathbf{Q}^T \mathbf{Y}^T \mathbf{A} \\
+&= \mathbf{A}\mathbf{X}(\mathbf{Q}\mathbf{R})^\dag \mathbf{Y}^T\mathbf{A} \\
+&= \mathbf{A} \mathbf{X} \left(\mathbf{Y}^T\mathbf{A}\mathbf{X}\right)^\dag \mathbf{Y}^T\mathbf{A} \\
+&= \mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T \mathbf{X}\left(\mathbf{Y}^T\mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T \mathbf{X}\right)^\dag \mathbf{Y}^T\mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T \\
+&= \mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T \mathbf{X}\left(\mathbf{V}_r^T\mathbf{X}\right)^\dag \left(\mathbf{\Sigma}_r\right)^\dag \left(\mathbf{Y}^T\mathbf{U}_r\right)^\dag \mathbf{Y}^T\mathbf{U}_r \mathbf{\Sigma}_r\mathbf{V}_r^T \\
+&= \mathbf{U}_r\mathbf{\Sigma}_r\mathbf{V}_r^T
+\end{align}
+where a bunch of stuff was used, which will be explained later. 
+
+\end{document}
