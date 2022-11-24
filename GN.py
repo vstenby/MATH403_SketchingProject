@@ -1,9 +1,9 @@
 import numpy as np
 from scipy.linalg import solve_triangular, qr
 
-def SGN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
+def GN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
     '''
-    Stabilized Generalized Nyström method for sketching a matrix A given r and ell.
+    Generalized Nyström method for sketching a matrix A given r and ell.
     '''
 
     #Set the seed for reproducability.
