@@ -31,3 +31,7 @@ d = np.arange(1, n+1) ** (-1.5)
 [V, _] = np.linalg.qr(np.random.normal(0, 1, (n,n)))
 A = Q @ np.diag(d) @ V
 ```
+
+### `SGN.py`
+
+Implements the Stabilized Generalized Nyström algorithm, `SKETCHING`. 
