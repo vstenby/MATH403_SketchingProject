@@ -6,10 +6,11 @@ def GN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
     Generalized Nyström method for sketching a matrix A given r and ell.
     
     Input:
-        A   : 2D numpy array, matrix of size (m x n)
-        r   : integer, rank of approximation
-        ell : integer or function, oversampling parameter. 
+        A    : 2D numpy array, matrix of size (m x n)
+        r    : integer, rank of approximation
+        ell  : integer or function, oversampling parameter. 
             If ell is given as a function, then it should return an integer.
+        seed : integer, seed for reproducability of the algorithm
             
     Output:
         At  : 2D numpy array, approximation to matrix A of rank r using the GN/SKETCHING method.
