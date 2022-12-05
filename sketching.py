@@ -1,8 +1,7 @@
 from generate_test_matrices import generate_hilbert_matrix, generate_A2, generate_A3
-from SGN import SGN
+from GN import GN
 import numpy as np
 import argparse 
-#import wandb
 
 def main():
 
@@ -10,8 +9,8 @@ def main():
 
     parser.add_argument('--n', type=int, default=200, help='The size of the matrix.')
     
-    #If ell = None, then ell = floor(0.5 * r).
-    parser.add_argument('--ell', type=int, default=None)
+    #If ell is given, then it should be an integer.
+    parser.add_argument('--ell', default = lambda x : int(np.floor(0.5*x)), help='The oversampling parameter.')
 
     #Seeds for the random number generators.
     parser.add_argument('--test_matrix_seed', type=int, default=42, help='Seed for the test matrix.')
@@ -34,7 +33,10 @@ def main():
         raise Exception('Invalid test matrix.')
 
     #Calculate the error.
-    err = np.linalg.norm(A - SGN(A, r=args.r, ell=args.ell, seed=args.sgn_seed), ord='fro')
+    err = np.linalg.norm(A - GN(A, r=args.r, ell=args.ell, seed=args.sgn_seed), ord='fro')
+
+    print('The error is: ', err)
+
     return
 
 if __name__ == '__main__':
