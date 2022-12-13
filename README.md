@@ -32,6 +32,33 @@ d = np.arange(1, n+1) ** (-1.5)
 A = Q @ np.diag(d) @ V
 ```
 
-### `SGN.py`
+### `GN.py`
 
 Implements the Stabilized Generalized Nyström algorithm, `SKETCHING`. 
+
+### `sketching.py`
+
+Implementation of a run for a given set of parameters, callable from a terminal. 
+
+For example, to do $\texttt{SKETCHING}(\mathbf{A}_2 \in \mathbb{R}^{100 \times 100}, r = 25, \ell = 5)$ with default GN and $\mathbf{A}_2$ seed, write the following in your terminal:
+
+```
+python sketching.py --test_matrix A2 --n 100 --r 25 --ell 5
+```
+
+it gives the following output:
+
+```
+----------------------------- Sketching Experiment -----------------------------
+Test matrix:                                                                  A2
+Test matrix seed:                                                             42
+Size of test matrix:                                                         100
+Rank of approximation:                                                        25
+Oversampling parameter:                                                        5
+Algorithm seed:                                                               42
+Reconstruction error (Frobenius):                                       2.62e-02
+```
+
+### `Experiments.ipynb`
+
+Notebook containing experiments done for the report. 
