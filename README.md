@@ -2,6 +2,8 @@
 
 This code was written for our miniproject in the course MATH-403: Low-rank approximation techniques, offered in the fall of 2022 at EPFL. 
 
+To reproduce the results in the reports, check out the `Experiments.ipynb` notebook. 
+
 ## Files
 
 #### `generate_test_matrices.py`
