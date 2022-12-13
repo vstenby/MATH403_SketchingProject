@@ -19,10 +19,13 @@ def GN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
     #Set the seed for reproducability.
     np.random.seed(seed)
 
+    #If ell is a string, call eval.
+    if isinstance(ell, str):
+        ell = eval(ell)
+
     #If ell is a function, evaluate it.
     if callable(ell):
         ell = ell(r)
-        assert isinstance(ell, int), "Value returned from ell() must be an integer."
     else:
         ell = int(ell)
     
@@ -50,4 +53,4 @@ def GN(A, r, ell = lambda r : int(np.floor(0.5*r)), seed=42):
 
     At = B @ C.T
 
-    return At
+    return At   

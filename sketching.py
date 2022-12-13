@@ -2,6 +2,7 @@ from generate_test_matrices import generate_hilbert_matrix, generate_A2, generat
 from GN import GN
 import numpy as np
 import argparse 
+import inspect
 
 def main():
 
@@ -10,7 +11,7 @@ def main():
     parser.add_argument('--n', type=int, default=200, help='The size of the matrix.')
     
     #If ell is given, then it should be an integer.
-    parser.add_argument('--ell', default = lambda x : int(np.floor(0.5*x)), help='The oversampling parameter.')
+    parser.add_argument('--ell', default = 'lambda r : int(np.floor(0.5*r))', help='The oversampling parameter.')
 
     #Seeds for the random number generators.
     parser.add_argument('--test_matrix_seed', type=int, default=42, help='Seed for the test matrix.')
@@ -35,8 +36,14 @@ def main():
     #Calculate the error.
     err = np.linalg.norm(A - GN(A, r=args.r, ell=args.ell, seed=args.sgn_seed), ord='fro')
 
-    print('The error is: ', err)
-
+    print(' Sketching Experiment '.center(80, '-'))
+    print(f'Test matrix:                      {args.test_matrix.rjust(46)}')
+    print(f'Test matrix seed:                 {args.test_matrix_seed:46}')
+    print(f'Size of test matrix:              {args.n:46}')
+    print(f'Rank of approximation:            {args.r:46}')
+    print(f'Oversampling parameter:{(str(args.ell)).rjust(57)}')
+    print(f'Algorithm seed:                   {args.sgn_seed:46}')
+    print(f'Reconstruction error (Frobenius): {err:46.2e}')
     return
 
 if __name__ == '__main__':
