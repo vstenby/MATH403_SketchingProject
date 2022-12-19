@@ -2,7 +2,26 @@
 
 This code was written for our miniproject in the course MATH-403: Low-rank approximation techniques, offered in the fall of 2022 at EPFL. 
 
-To reproduce the results in the reports, check out the `Experiments.ipynb` notebook. 
+To reproduce the results in the reports, check out the `Experiments.ipynb` notebook, which we ran with the following specs:
+
+```
+Python implementation: CPython
+Python version       : 3.9.13
+IPython version      : 8.4.0
+
+numpy     : 1.22.3
+scipy     : 1.8.0
+matplotlib: 3.6.2
+tqdm      : 4.63.0
+
+Compiler    : GCC 11.2.0
+OS          : Linux
+Release     : 3.10.0-1160.80.1.el7.x86_64
+Machine     : x86_64
+Processor   : x86_64
+CPU cores   : 20
+Architecture: 64bit
+```
 
 ## Files
 
